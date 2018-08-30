@@ -12,6 +12,13 @@ RUN apt-get update && apt-get install -y \
   openjdk-8-jre && \
   apt-get autoremove -y
 
+RUN wget --no-check-certificate --quiet https://cmake.org/files/v3.12/cmake-3.12.1-Linux-x86_64.tar.gz && \
+tar -xzf cmake-3.12.1-Linux-x86_64.tar.gz && \
+cp -fR cmake-3.12.1-Linux-x86_64/* /usr && \
+rm -rf cmake-3.12.1-Linux-x86_64 && \
+rm cmake-3.12.1-Linux-x86_64.tar.gz
+
+
 COPY veraconf /veraconf
 RUN chmod -R 777 /veraconf
 
@@ -29,7 +36,5 @@ unzip sonar-scanner.zip -d /opt/sonar && \
 rm  /sonar-scanner.zip
 
 ENV PATH "$PATH:/opt/sonar/sonar-scanner-3.2.0.1227-linux/bin"
-
-COPY sample /sample
 
 RUN echo 'alias ll="ls -l"' >> ~/.bashrc
