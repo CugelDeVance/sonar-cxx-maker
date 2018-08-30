@@ -1,4 +1,4 @@
-FROM gcc
+FROM gcc:7
 
 RUN apt-get update && apt-get install -y \
   gcovr \
@@ -8,15 +8,28 @@ RUN apt-get update && apt-get install -y \
   python2.7 \
   python-pip \
   gcovr \
+  git  \
   openjdk-8-jre && \
   apt-get autoremove -y
 
-RUN wget http://downloads.sourceforge.net/project/expat/expat/2.0.1/expat-2.0.1.tar.gz  && \
-tar -xvf expat-2.0.1.tar.gz && \
-cd expat-2.0.1 && \
-./configure && make && sudo make install
+COPY veraconf /veraconf
+RUN chmod -R 777 /veraconf
 
-RUN wget https://rough-auditing-tool-for-security.googlecode.com/files/rats-2.4.tgz  && \
+COPY rats /rats
+RUN cd /rats && \
 tar -xzvf rats-2.4.tgz  && \
 cd rats-2.4  && \
-./configure && make && sudo make install  
+./configure && make && make install && \
+cd ~ &&\
+rm -r /rats 
+
+ADD https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip sonar-scanner.zip
+RUN apt-get install unzip -y && \
+unzip sonar-scanner.zip -d /opt/sonar && \
+rm  /sonar-scanner.zip
+
+ENV PATH "$PATH:/opt/sonar/sonar-scanner-3.2.0.1227-linux/bin"
+
+COPY sample /sample
+
+RUN echo 'alias ll="ls -l"' >> ~/.bashrc
