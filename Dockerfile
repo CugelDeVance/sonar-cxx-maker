@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
   python-pip \
   gcovr \
   git  \
+  lcov \
   openjdk-8-jre && \
   apt-get autoremove -y
 
@@ -24,7 +25,7 @@ cd ~ &&\
 rm -r /rats 
 
 ADD https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip sonar-scanner.zip
-RUN apt-get install unzip -y && \
+RUN apt-get install -y vi unzip && \
 unzip sonar-scanner.zip -d /opt/sonar && \
 rm  /sonar-scanner.zip
 
