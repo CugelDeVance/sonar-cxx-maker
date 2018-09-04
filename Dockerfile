@@ -32,7 +32,7 @@ cd ~ &&\
 rm -r /rats 
 
 ADD https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip sonar-scanner.zip
-RUN apt-get install -y vi unzip && \
+RUN apt-get install -y unzip && \
 unzip sonar-scanner.zip -d /opt/sonar && \
 rm  /sonar-scanner.zip
 
